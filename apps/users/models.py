@@ -32,8 +32,8 @@ class UserProfile(models.Model):
 
     def add_accepted_number(self):
         self.accepted_number = models.F("accepted_number") + 1
-        self.save()
+        self.save(update_fields=["accepted_number"])
 
     def add_submission_number(self):
         self.submission_number = models.F("submission_number") + 1
-        self.save()
+        self.save(update_fields=["submission_number"])
