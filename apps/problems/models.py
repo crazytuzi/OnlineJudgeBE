@@ -4,61 +4,47 @@ from contests.models import Contests
 
 
 class ProblemTag(models.Model):
-    name = models.TextField()
+    name = models.TextField(verbose_name="标签名")
 
     class Meta:
         db_table = "problem_tag"
 
 
 class Problems(models.Model):
-    # ID
-    problem_id = models.IntegerField(db_index=True, default=0)
-    # 比赛
-    contest = models.ForeignKey(Contests, blank=True, null=True)
-    # 标题
-    title = models.CharField(unique=True, max_length=255)
-    # 描述
-    description = models.TextField(null=True)
-    # 输入描述
-    input_description = models.TextField(null=True)
-    # 输出描述
-    output_description = models.TextField(null=True)
-    # 输入样例
-    sample_input = models.TextField(null=True)
-    # 输出样例
-    sample_output = models.TextField(null=True)
-    # 时间限制
-    time_limit = models.IntegerField()
-    # 空间限制
-    memory_limit = models.IntegerField()
-    # 提交数量
-    submission_number = models.IntegerField(default=0)
-    # 通过数量
-    accepted_number = models.IntegerField(default=0)
-    # 答案错误
-    wrong_answer_number = models.IntegerField(default=0)
-    # 超过时间
-    time_limit_number = models.IntegerField(default=0)
-    # 超过空间
-    memory_limit_number = models.IntegerField(default=0)
-    # 运行错误
-    runtime_error_number = models.IntegerField(default=0)
-    # 超过输出
-    output_limit_number = models.IntegerField(default=0)
-    # 编译错误
-    compile_error_number = models.IntegerField(default=0)
-    # 格式错误
-    presentation_error_number = models.IntegerField(default=0)
-    # 标签
-    tags = models.ManyToManyField(ProblemTag, blank=True)
-    # 创建时间
-    create_time = models.DateTimeField(auto_now_add=True)
+    problem_id = models.IntegerField(
+        db_index=True, default=0, verbose_name="题目编号")
+    contest = models.ForeignKey(
+        Contests,
+        blank=True,
+        null=True,
+        verbose_name="比赛")
+    title = models.CharField(unique=True, max_length=255, verbose_name="标题")
+    description = models.TextField(null=True, verbose_name="题目描述")
+    input_description = models.TextField(null=True, verbose_name="输入描述")
+    output_description = models.TextField(null=True, verbose_name="输出描述")
+    sample_input = models.TextField(null=True, verbose_name="输入样例")
+    sample_output = models.TextField(null=True, verbose_name="输出样例")
+    time_limit = models.IntegerField(default=1000, verbose_name="时间限制")
+    memory_limit = models.IntegerField(default=64, verbose_name="空间限制")
+    submission_number = models.IntegerField(default=0, verbose_name="提交数量")
+    accepted_number = models.IntegerField(default=0, verbose_name="通过数量")
+    wrong_answer_number = models.IntegerField(default=0, verbose_name="答案错误")
+    time_limit_number = models.IntegerField(default=0, verbose_name="超过时间")
+    memory_limit_number = models.IntegerField(default=0, verbose_name="超过空间")
+    runtime_error_number = models.IntegerField(default=0, verbose_name="运行错误")
+    output_limit_number = models.IntegerField(default=0, verbose_name="超过输出")
+    compile_error_number = models.IntegerField(default=0, verbose_name="编译错误")
+    presentation_error_number = models.IntegerField(
+        default=0, verbose_name="格式错误")
+    tags = models.ManyToManyField(ProblemTag, blank=True, verbose_name="标签")
+    create_time = models.DateTimeField(auto_now_add=True, verbose_name="创建时间")
 
     def __str__(self):
         return self.title
 
     class Meta:
-        verbose_name = "problem"
+        verbose_name = "题目"
+        verbose_name_plural = verbose_name
         db_table = "problems"
 
     def add_submission_number(self):

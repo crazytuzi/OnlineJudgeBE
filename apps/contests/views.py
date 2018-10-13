@@ -22,9 +22,6 @@ class ContestsListViewSet(
         CacheResponseMixin,
         mixins.ListModelMixin,
         viewsets.GenericViewSet):
-    """
-    比赛列表页,分页,搜索,过滤,排序
-    """
     queryset = Contests.objects.all()
     serializer_class = ContestsSerializer
     pagination_class = ContestsPagination

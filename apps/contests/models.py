@@ -6,18 +6,20 @@ User = get_user_model()
 
 
 class Contests(models.Model):
-    contest_id = models.IntegerField(db_index=True, default=0)
-    title = models.CharField(unique=True, max_length=255)
-    start_time = models.DateTimeField()
-    end_time = models.DateTimeField()
-    create_time = models.DateTimeField(auto_now_add=True)
-    create_by = models.ForeignKey(User, blank=True)
+    contest_id = models.IntegerField(
+        db_index=True, default=0, verbose_name="比赛编号")
+    title = models.CharField(unique=True, max_length=255, verbose_name="标题")
+    start_time = models.DateTimeField(verbose_name="开始时间")
+    end_time = models.DateTimeField(verbose_name="结束时间")
+    create_time = models.DateTimeField(auto_now_add=True, verbose_name="创建时间")
+    create_by = models.ForeignKey(User, blank=True, verbose_name="创建人")
 
     def __str__(self):
         return self.title
 
     class Meta:
-        verbose_name = "contest"
+        verbose_name = "比赛"
+        verbose_name_plural = verbose_name
         db_table = "contests"
 
     def status(self):

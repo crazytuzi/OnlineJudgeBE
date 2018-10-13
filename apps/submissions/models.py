@@ -22,15 +22,27 @@ class JudgeStatus:
 
 
 class Submissions(models.Model):
-    submission_id = models.IntegerField(db_index=True, default=0)
-    user = models.ForeignKey(User)
-    contest = models.ForeignKey(Contests)
-    problem = models.ForeignKey(Problems)
-    submit_time = models.DateTimeField(auto_now_add=True)
-    result = models.IntegerField(db_index=True, default=JudgeStatus.PENDING)
-    memory_cost = models.IntegerField(default=0)
-    time_cost = models.IntegerField(default=0)
-    code = models.TextField(default=None)
+    submission_id = models.IntegerField(
+        db_index=True, default=0, verbose_name="提交编号")
+    user = models.ForeignKey(User, verbose_name="用户")
+    contest = models.ForeignKey(Contests, verbose_name="比赛")
+    problem = models.ForeignKey(Problems, verbose_name="题目")
+    submit_time = models.DateTimeField(auto_now_add=True, verbose_name="提交时间")
+    result = models.IntegerField(
+        db_index=True,
+        default=JudgeStatus.PENDING,
+        verbose_name="结果")
+    memory_cost = models.IntegerField(default=0, verbose_name="运行时间")
+    time_cost = models.IntegerField(default=0, verbose_name="运行内存")
+    code = models.TextField(default=None, verbose_name="代码")
+
+    def __str__(self):
+        return self.user.name
+
+    class Meta:
+        verbose_name = "提交记录"
+        verbose_name_plural = verbose_name
+        db_table = "submissions"
 
     def check_permission(self):
         pass

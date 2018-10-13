@@ -4,9 +4,6 @@ from .models import Problems
 
 
 class ProblemsFilter(rest_framework.FilterSet):
-    """
-    题目的过滤类
-    """
     title = django_filters.CharFilter(lookup_expr="icontains")
     problem_id = django_filters.NumberFilter()
 

@@ -20,16 +20,27 @@ from rest_framework.documentation import include_docs_urls
 from rest_framework.routers import DefaultRouter
 from rest_framework_jwt.views import obtain_jwt_token
 from problems.views import ProblemsListViewSet
+from contests.views import ContestsListViewSet
+from submissions.views import SubmissionsListViewSet
+from user_operation.views import UserCollectListViewSet
 
 router = DefaultRouter()
-# 配置problem的url
 router.register(r'problems', ProblemsListViewSet, base_name="problems")
+router.register(r'contests', ContestsListViewSet, base_name="contests")
+router.register(
+    r'submissions',
+    SubmissionsListViewSet,
+    base_name="submissions")
+router.register(
+    r'useroperation',
+    UserCollectListViewSet,
+    base_name="useroperation")
 
 urlpatterns = [
     # url(r'^admin/', admin.site.urls),
     url(r'^xadmin/', xadmin.site.urls),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    url(r'^', include(router.urls)),
+    url(r'^api/', include(router.urls)),
     url(r'docs/', include_docs_urls(title="OnlineJudgeBE")),
     # jwt的认证接口
     url(r'^login/', obtain_jwt_token),
