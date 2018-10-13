@@ -1,5 +1,5 @@
 from django.db import models
-
+from contests.models import Contests
 # Create your models here.
 
 
@@ -12,7 +12,9 @@ class ProblemTag(models.Model):
 
 class Problems(models.Model):
     # ID
-    _id = models.IntegerField(db_index=True, default=0)
+    problem_id = models.IntegerField(db_index=True, default=0)
+    # 比赛
+    contest = models.ForeignKey(Contests, blank=True, null=True)
     # 标题
     title = models.CharField(unique=True, max_length=255)
     # 描述
@@ -52,7 +54,11 @@ class Problems(models.Model):
     # 创建时间
     create_time = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return self.title
+
     class Meta:
+        verbose_name = "problem"
         db_table = "problems"
 
     def add_submission_number(self):
