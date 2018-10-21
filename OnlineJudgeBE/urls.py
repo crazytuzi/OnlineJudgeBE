@@ -42,8 +42,9 @@ urlpatterns = [
     # url(r'^admin/', admin.site.urls),
     url(r'^xadmin/', xadmin.site.urls),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    # jwt的认证接口
+    url(r'^api/login/', obtain_jwt_token),
     url(r'^api/', include(router.urls)),
     url(r'docs/', include_docs_urls(title="OnlineJudgeBE")),
-    # jwt的认证接口
-    url(r'^login/', obtain_jwt_token),
+
 ]
