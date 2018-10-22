@@ -8,8 +8,7 @@ from django.contrib.auth.models import AbstractUser
 class User(AbstractUser):
     email = models.EmailField(
         max_length=100,
-        null=True,
-        blank=True,
+        unique=True,
         verbose_name="邮箱")
 
     class Meta:

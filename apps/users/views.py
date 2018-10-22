@@ -10,10 +10,28 @@ from rest_framework import mixins, permissions, authentication
 from rest_framework import viewsets, status
 from users.serializers import UserRegSerializer, UserSerializer
 from rest_framework.mixins import CreateModelMixin
+from rest_framework_extensions.cache.mixins import CacheResponseMixin
+from rest_framework import filters
+from django_filters.rest_framework import DjangoFilterBackend
+from .filters import UsersFilter
 User = get_user_model()
 
 
 # Create your views here.
+
+
+class UserViewSet(CacheResponseMixin,
+                  mixins.ListModelMixin,
+                  viewsets.GenericViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    filter_backends = (
+        DjangoFilterBackend,
+        filters.SearchFilter,
+        filters.OrderingFilter
+    )
+    filter_class = UsersFilter
+    ordering_fields = ('id',)
 
 
 class CustomBackend(ModelBackend):
@@ -23,8 +41,6 @@ class CustomBackend(ModelBackend):
 
     def authenticate(self, username=None, password=None, **kwargs):
         try:
-            # 不希望用户存在两个，get只能有一个。两个是get失败的一种原因
-            # 后期可以添加邮箱验证
             user = User.objects.get(
                 Q(username=username) | Q(email=username))
             # django的后台中密码加密：所以不能password==password
@@ -36,7 +52,7 @@ class CustomBackend(ModelBackend):
             return None
 
 
-class UserViewset(CreateModelMixin, mixins.UpdateModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
+class UserRegViewSet(CreateModelMixin, mixins.UpdateModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     serializer_class = UserRegSerializer
     queryset = User.objects.all()
     authentication_classes = (JSONWebTokenAuthentication, authentication.SessionAuthentication)
@@ -53,7 +69,6 @@ class UserViewset(CreateModelMixin, mixins.UpdateModelMixin, mixins.RetrieveMode
             return [permissions.IsAuthenticated()]
         elif self.action == "create":
             return []
-
         return []
 
     def create(self, request, *args, **kwargs):
