@@ -19,7 +19,6 @@ class UserCollectPagination(PageNumberPagination):
 
 
 class UserCollectListViewSet(
-        CacheResponseMixin,
         mixins.ListModelMixin,
         viewsets.GenericViewSet):
     queryset = UserCollect.objects.all()

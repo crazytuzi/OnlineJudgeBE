@@ -21,6 +21,7 @@ class ProblemsPagination(PageNumberPagination):
 class ProblemsListViewSet(
         CacheResponseMixin,
         mixins.ListModelMixin,
+        mixins.RetrieveModelMixin,
         viewsets.GenericViewSet):
     queryset = Problems.objects.all()
     serializer_class = ProblemsSerializer

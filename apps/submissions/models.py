@@ -22,10 +22,8 @@ class JudgeStatus:
 
 
 class Submissions(models.Model):
-    submission_id = models.IntegerField(
-        db_index=True, default=0, verbose_name="提交编号")
     user = models.ForeignKey(User, verbose_name="用户")
-    contest = models.ForeignKey(Contests, verbose_name="比赛", blank=True)
+    contest = models.ForeignKey(Contests, verbose_name="比赛", blank=True, null=True)
     problem = models.ForeignKey(Problems, verbose_name="题目")
     submit_time = models.DateTimeField(auto_now_add=True, verbose_name="提交时间")
     result = models.IntegerField(
@@ -37,7 +35,7 @@ class Submissions(models.Model):
     code = models.TextField(default=None, verbose_name="代码")
 
     def __str__(self):
-        return self.user.name
+        return self.user.username
 
     class Meta:
         verbose_name = "提交记录"

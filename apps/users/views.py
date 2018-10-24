@@ -20,8 +20,7 @@ User = get_user_model()
 # Create your views here.
 
 
-class UserViewSet(CacheResponseMixin,
-                  mixins.ListModelMixin,
+class UserViewSet(mixins.ListModelMixin,
                   viewsets.GenericViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
