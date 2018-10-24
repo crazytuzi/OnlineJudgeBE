@@ -7,7 +7,7 @@ from rest_framework import viewsets, status
 from .serializers import SubmissionsSerializer
 from django_filters.rest_framework import DjangoFilterBackend
 from .filters import SubmissionsFilter
-from judge.task import http_post
+from judge.client import http_post
 
 # Create your views here.
 
@@ -45,10 +45,6 @@ class SubmissionsListViewSet(
         re_dict = serializer.data
         headers = self.get_success_headers(serializer.data)
         return Response(re_dict, status=status.HTTP_201_CREATED, headers=headers)
-    # def perform_create(self, serializer):
-    #     serializer.save()
-    #     http_post(serializer)
-    #     return serializer
 
     def perform_update(self, serializer):
         return serializer.save()
