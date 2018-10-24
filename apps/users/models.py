@@ -9,6 +9,8 @@ class User(AbstractUser):
     email = models.EmailField(
         max_length=100,
         unique=True,
+        blank=False,
+        default="957824770@qq.com",
         verbose_name="邮箱")
 
     class Meta:

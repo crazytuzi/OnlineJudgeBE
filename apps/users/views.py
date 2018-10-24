@@ -6,7 +6,7 @@ from django.contrib.auth import get_user_model
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from rest_framework_jwt.serializers import jwt_payload_handler, jwt_encode_handler
 from rest_framework.response import Response
-from rest_framework import mixins, permissions, authentication
+from rest_framework import mixins
 from rest_framework import viewsets, status
 from users.serializers import UserRegSerializer, UserSerializer
 from rest_framework.mixins import CreateModelMixin
@@ -52,24 +52,10 @@ class CustomBackend(ModelBackend):
             return None
 
 
-class UserRegViewSet(CreateModelMixin, mixins.UpdateModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
+class UserRegViewSet(CreateModelMixin, viewsets.GenericViewSet):
     serializer_class = UserRegSerializer
     queryset = User.objects.all()
-    authentication_classes = (JSONWebTokenAuthentication, authentication.SessionAuthentication)
-
-    def get_serializer_class(self):
-        if self.action == "retrieve":
-            return UserSerializer
-        elif self.action == "create":
-            return UserRegSerializer
-        return UserSerializer
-
-    def get_permissions(self):
-        if self.action == "retrieve":
-            return [permissions.IsAuthenticated()]
-        elif self.action == "create":
-            return []
-        return []
+    authentication_classes = (JSONWebTokenAuthentication,)
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -80,10 +66,6 @@ class UserRegViewSet(CreateModelMixin, mixins.UpdateModelMixin, mixins.RetrieveM
         re_dict["token"] = jwt_encode_handler(payload)
         headers = self.get_success_headers(serializer.data)
         return Response(re_dict, status=status.HTTP_201_CREATED, headers=headers)
-
-    # 重写该方法，不管传什么id，都只返回当前用户
-    def get_object(self):
-        return self.request.user
 
     def perform_create(self, serializer):
         return serializer.save()

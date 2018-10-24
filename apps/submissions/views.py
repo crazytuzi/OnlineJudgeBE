@@ -32,3 +32,6 @@ class SubmissionsListViewSet(
     )
     filter_class = SubmissionsFilter
     ordering_fields = ('submit_time',)
+
+    def perform_create(self,serializer):
+        pass
