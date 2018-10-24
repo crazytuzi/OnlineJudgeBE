@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : 127.0.0.1
+ Source Server         : 192.168.100.129
  Source Server Type    : MySQL
- Source Server Version : 50553
- Source Host           : localhost:3306
+ Source Server Version : 50724
+ Source Host           : 192.168.100.129:3306
  Source Schema         : onlinejudge
 
  Target Server Type    : MySQL
- Target Server Version : 50553
+ Target Server Version : 50724
  File Encoding         : 65001
 
- Date: 19/10/2018 19:32:20
+ Date: 24/10/2018 21:17:56
 */
 
 SET NAMES utf8mb4;
@@ -39,8 +39,8 @@ CREATE TABLE `auth_group_permissions`  (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `auth_group_permissions_group_id_permission_id_0cd325b0_uniq`(`group_id`, `permission_id`) USING BTREE,
   INDEX `auth_group_permissio_permission_id_84c5c92e_fk_auth_perm`(`permission_id`) USING BTREE,
-  CONSTRAINT `auth_group_permissions_group_id_b120cbf9_fk_auth_group_id` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `auth_group_permissio_permission_id_84c5c92e_fk_auth_perm` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+  CONSTRAINT `auth_group_permissio_permission_id_84c5c92e_fk_auth_perm` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `auth_group_permissions_group_id_b120cbf9_fk_auth_group_id` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
@@ -55,7 +55,7 @@ CREATE TABLE `auth_permission`  (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `auth_permission_content_type_id_codename_01ab375a_uniq`(`content_type_id`, `codename`) USING BTREE,
   CONSTRAINT `auth_permission_content_type_id_2f476e4b_fk_django_co` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 68 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 69 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of auth_permission
@@ -127,6 +127,7 @@ INSERT INTO `auth_permission` VALUES (64, 'Can view User Widget', 15, 'view_user
 INSERT INTO `auth_permission` VALUES (65, 'Can add Token', 17, 'add_token');
 INSERT INTO `auth_permission` VALUES (66, 'Can change Token', 17, 'change_token');
 INSERT INTO `auth_permission` VALUES (67, 'Can delete Token', 17, 'delete_token');
+INSERT INTO `auth_permission` VALUES (68, 'Can view Token', 17, 'view_token');
 
 -- ----------------------------
 -- Table structure for authtoken_token
@@ -134,7 +135,7 @@ INSERT INTO `auth_permission` VALUES (67, 'Can delete Token', 17, 'delete_token'
 DROP TABLE IF EXISTS `authtoken_token`;
 CREATE TABLE `authtoken_token`  (
   `key` varchar(40) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `created` datetime NOT NULL,
+  `created` datetime(0) NOT NULL,
   `user_id` int(11) NOT NULL,
   PRIMARY KEY (`key`) USING BTREE,
   UNIQUE INDEX `user_id`(`user_id`) USING BTREE,
@@ -149,9 +150,9 @@ CREATE TABLE `contests`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `contest_id` int(11) NOT NULL,
   `title` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `start_time` datetime NOT NULL,
-  `end_time` datetime NOT NULL,
-  `create_time` datetime NOT NULL,
+  `start_time` datetime(0) NOT NULL,
+  `end_time` datetime(0) NOT NULL,
+  `create_time` datetime(0) NOT NULL,
   `create_by_id` int(11) NOT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `title`(`title`) USING BTREE,
@@ -166,7 +167,7 @@ CREATE TABLE `contests`  (
 DROP TABLE IF EXISTS `django_admin_log`;
 CREATE TABLE `django_admin_log`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `action_time` datetime NOT NULL,
+  `action_time` datetime(0) NOT NULL,
   `object_id` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
   `object_repr` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `action_flag` smallint(5) UNSIGNED NOT NULL,
@@ -221,9 +222,9 @@ CREATE TABLE `django_migrations`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `app` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `applied` datetime NOT NULL,
+  `applied` datetime(0) NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 27 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 32 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of django_migrations
@@ -254,6 +255,11 @@ INSERT INTO `django_migrations` VALUES (23, 'user_operation', '0002_auto_2018101
 INSERT INTO `django_migrations` VALUES (24, 'xadmin', '0001_initial', '2018-10-15 10:11:14');
 INSERT INTO `django_migrations` VALUES (25, 'xadmin', '0002_log', '2018-10-15 10:11:14');
 INSERT INTO `django_migrations` VALUES (26, 'xadmin', '0003_auto_20160715_0100', '2018-10-15 10:11:15');
+INSERT INTO `django_migrations` VALUES (27, 'users', '0002_auto_20181022_1357', '2018-10-22 13:57:34');
+INSERT INTO `django_migrations` VALUES (28, 'submissions', '0003_auto_20181024_1057', '2018-10-24 10:57:25');
+INSERT INTO `django_migrations` VALUES (29, 'users', '0003_auto_20181024_1057', '2018-10-24 10:57:25');
+INSERT INTO `django_migrations` VALUES (30, 'submissions', '0004_remove_submissions_submission_id', '2018-10-24 11:57:20');
+INSERT INTO `django_migrations` VALUES (31, 'submissions', '0005_auto_20181024_1210', '2018-10-24 12:10:27');
 
 -- ----------------------------
 -- Table structure for django_session
@@ -262,7 +268,7 @@ DROP TABLE IF EXISTS `django_session`;
 CREATE TABLE `django_session`  (
   `session_key` varchar(40) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `session_data` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `expire_date` datetime NOT NULL,
+  `expire_date` datetime(0) NOT NULL,
   PRIMARY KEY (`session_key`) USING BTREE,
   INDEX `django_session_expire_date_a5c62663`(`expire_date`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
@@ -270,7 +276,7 @@ CREATE TABLE `django_session`  (
 -- ----------------------------
 -- Records of django_session
 -- ----------------------------
-INSERT INTO `django_session` VALUES ('f7zfb1yh2b4td6sx49cqkej2lysgewg6', 'NzgxZDc5ZGYxMmM2N2FmMTBlZmE1ODUwNTJjY2MzYzFiZWIxMTNjNTp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJlZDRjNmMxMDI3MmY0MmQ4OWM3YTM1NTdlZTdlMDdiNzExODAxN2U2IiwiTElTVF9RVUVSWSI6W1sidXNlcnMiLCJ1c2VyIl0sIiJdfQ==', '2018-11-02 17:22:20');
+INSERT INTO `django_session` VALUES ('ytmtjiftpari1j0jxyowe3wbn9qbuuw1', 'ZWQxNWUxY2ExMmY4NGFmM2ZiZDljZDAzMTkyNTM0ZmVjNDRhZDkxMDp7Il9hdXRoX3VzZXJfaWQiOiIxNiIsIl9hdXRoX3VzZXJfYmFja2VuZCI6InVzZXJzLnZpZXdzLkN1c3RvbUJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJkOTQ5MTM4Y2VjYzk1OTIwYWI5NmZkMDVjOTFhYThhNzQ4NjM5ZGIwIn0=', '2018-11-05 15:22:10');
 
 -- ----------------------------
 -- Table structure for problem_tag
@@ -306,7 +312,7 @@ CREATE TABLE `problems`  (
   `output_limit_number` int(11) NOT NULL,
   `compile_error_number` int(11) NOT NULL,
   `presentation_error_number` int(11) NOT NULL,
-  `create_time` datetime NOT NULL,
+  `create_time` datetime(0) NOT NULL,
   `contest_id` int(11) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `title`(`title`) USING BTREE,
@@ -354,25 +360,73 @@ CREATE TABLE `problems_tags`  (
 DROP TABLE IF EXISTS `submissions`;
 CREATE TABLE `submissions`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `submission_id` int(11) NOT NULL,
-  `submit_time` datetime NOT NULL,
+  `submit_time` datetime(0) NOT NULL,
   `result` int(11) NOT NULL,
   `memory_cost` int(11) NOT NULL,
   `time_cost` int(11) NOT NULL,
   `code` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `contest_id` int(11) NOT NULL,
+  `contest_id` int(11) NULL DEFAULT NULL,
   `problem_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `submissions_contest_id_3c8de7a5_fk_contests_id`(`contest_id`) USING BTREE,
   INDEX `submissions_problem_id_f3412834_fk_problems_id`(`problem_id`) USING BTREE,
-  INDEX `submissions_submission_id_942e7580`(`submission_id`) USING BTREE,
   INDEX `submissions_result_a82d139c`(`result`) USING BTREE,
   INDEX `submissions_user_id_14b0d84e_fk_users_user_id`(`user_id`) USING BTREE,
+  INDEX `submissions_contest_id_3c8de7a5_fk_contests_id`(`contest_id`) USING BTREE,
   CONSTRAINT `submissions_contest_id_3c8de7a5_fk_contests_id` FOREIGN KEY (`contest_id`) REFERENCES `contests` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `submissions_problem_id_f3412834_fk_problems_id` FOREIGN KEY (`problem_id`) REFERENCES `problems` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `submissions_user_id_14b0d84e_fk_users_user_id` FOREIGN KEY (`user_id`) REFERENCES `users_user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 47 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Records of submissions
+-- ----------------------------
+INSERT INTO `submissions` VALUES (1, '2018-10-24 12:10:33', 4, 1, 1, '1', NULL, 1, 1);
+INSERT INTO `submissions` VALUES (2, '2018-10-24 12:12:24', 1, 1, 1, '5', NULL, 1, 16);
+INSERT INTO `submissions` VALUES (3, '2018-10-24 13:13:21', 1, 2, 1, '5', NULL, 1, 1);
+INSERT INTO `submissions` VALUES (4, '2018-10-24 15:12:03', 1, 1, 1, '222222', NULL, 1, 1);
+INSERT INTO `submissions` VALUES (5, '2018-10-24 16:15:46', 1, 1, 1, '1', NULL, 1, 1);
+INSERT INTO `submissions` VALUES (6, '2018-10-24 16:16:30', 1, 1, 1, '1', NULL, 1, 1);
+INSERT INTO `submissions` VALUES (7, '2018-10-24 16:17:04', 1, 1, 1, '1', NULL, 1, 1);
+INSERT INTO `submissions` VALUES (8, '2018-10-24 16:19:17', 2, 2, 2, '2', NULL, 1, 1);
+INSERT INTO `submissions` VALUES (9, '2018-10-24 16:20:20', 1, 1, 1, '1', NULL, 1, 1);
+INSERT INTO `submissions` VALUES (10, '2018-10-24 16:20:38', 1, 1, 1, '1', NULL, 1, 1);
+INSERT INTO `submissions` VALUES (11, '2018-10-24 16:21:01', 1, 1, 1, '1', NULL, 1, 1);
+INSERT INTO `submissions` VALUES (12, '2018-10-24 16:21:07', 1, 1, 1, '1', NULL, 1, 1);
+INSERT INTO `submissions` VALUES (13, '2018-10-24 16:22:03', 1, 1, 1, '1', NULL, 1, 1);
+INSERT INTO `submissions` VALUES (14, '2018-10-24 16:22:51', 2, 2, 2, '2', NULL, 1, 1);
+INSERT INTO `submissions` VALUES (15, '2018-10-24 16:23:39', 2, 2, 2, '2', NULL, 1, 1);
+INSERT INTO `submissions` VALUES (16, '2018-10-24 16:24:35', 2, 2, 2, '2', NULL, 1, 1);
+INSERT INTO `submissions` VALUES (17, '2018-10-24 16:25:30', 2, 2, 2, '2', NULL, 1, 1);
+INSERT INTO `submissions` VALUES (18, '2018-10-24 16:26:03', 2, 2, 2, '2', NULL, 1, 1);
+INSERT INTO `submissions` VALUES (19, '2018-10-24 16:32:44', 2, 2, 2, '2', NULL, 1, 1);
+INSERT INTO `submissions` VALUES (20, '2018-10-24 16:36:35', 1, 1, 1, '1', NULL, 1, 1);
+INSERT INTO `submissions` VALUES (21, '2018-10-24 16:36:48', 2, 2, 2, '2', NULL, 1, 1);
+INSERT INTO `submissions` VALUES (22, '2018-10-24 16:38:07', 2, 2, 2, '2', NULL, 1, 1);
+INSERT INTO `submissions` VALUES (23, '2018-10-24 16:44:10', 1, 1, 1, '2', NULL, 1, 1);
+INSERT INTO `submissions` VALUES (24, '2018-10-24 16:46:00', 1, 1, 1, '2', NULL, 1, 1);
+INSERT INTO `submissions` VALUES (25, '2018-10-24 16:46:27', 1, 1, 1, '2', NULL, 1, 1);
+INSERT INTO `submissions` VALUES (26, '2018-10-24 16:47:32', 1, 1, 1, '2', NULL, 1, 1);
+INSERT INTO `submissions` VALUES (27, '2018-10-24 16:49:43', 1, 1, 2, '2', NULL, 1, 1);
+INSERT INTO `submissions` VALUES (28, '2018-10-24 16:50:55', 1, 1, 2, '2', NULL, 1, 1);
+INSERT INTO `submissions` VALUES (29, '2018-10-24 16:52:29', 1, 1, 2, '2', NULL, 1, 1);
+INSERT INTO `submissions` VALUES (30, '2018-10-24 16:56:10', 1, 1, 2, '2', NULL, 1, 1);
+INSERT INTO `submissions` VALUES (31, '2018-10-24 16:56:55', 1, 1, 2, '2', NULL, 1, 1);
+INSERT INTO `submissions` VALUES (32, '2018-10-24 16:57:34', 1, 1, 2, '2', NULL, 1, 1);
+INSERT INTO `submissions` VALUES (33, '2018-10-24 17:37:50', 1, 1, 1, '1', NULL, 1, 1);
+INSERT INTO `submissions` VALUES (34, '2018-10-24 17:43:55', 1, 1, 1, '1', NULL, 1, 1);
+INSERT INTO `submissions` VALUES (35, '2018-10-24 17:45:14', 1, 1, 1, '1', NULL, 1, 1);
+INSERT INTO `submissions` VALUES (36, '2018-10-24 17:45:37', 1, 1, 1, '1', NULL, 1, 1);
+INSERT INTO `submissions` VALUES (37, '2018-10-24 17:45:47', 1, 1, 1, '1', NULL, 1, 1);
+INSERT INTO `submissions` VALUES (38, '2018-10-24 17:46:21', 1, 1, 1, '1', NULL, 1, 1);
+INSERT INTO `submissions` VALUES (39, '2018-10-24 17:48:14', 1, 1, 1, '1', NULL, 1, 1);
+INSERT INTO `submissions` VALUES (40, '2018-10-24 17:49:29', 1, 1, 1, '1', NULL, 1, 1);
+INSERT INTO `submissions` VALUES (41, '2018-10-24 17:51:18', 1, 1, 1, '1', NULL, 1, 1);
+INSERT INTO `submissions` VALUES (42, '2018-10-24 17:54:19', 1, 1, 1, '1', NULL, 1, 1);
+INSERT INTO `submissions` VALUES (43, '2018-10-24 18:19:59', 5, 1, 1, '1', NULL, 1, 1);
+INSERT INTO `submissions` VALUES (44, '2018-10-24 18:21:01', 5, 1, 1, '1', NULL, 1, 1);
+INSERT INTO `submissions` VALUES (45, '2018-10-24 18:26:54', 1, 1, 1, '1', NULL, 1, 1);
+INSERT INTO `submissions` VALUES (46, '2018-10-24 18:27:15', 5, 1, 1, '1', NULL, 1, 1);
 
 -- ----------------------------
 -- Table structure for user_collect
@@ -380,7 +434,7 @@ CREATE TABLE `submissions`  (
 DROP TABLE IF EXISTS `user_collect`;
 CREATE TABLE `user_collect`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `create_time` datetime NOT NULL,
+  `create_time` datetime(0) NOT NULL,
   `problems_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   PRIMARY KEY (`id`) USING BTREE,
@@ -397,24 +451,34 @@ DROP TABLE IF EXISTS `users_user`;
 CREATE TABLE `users_user`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `password` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `last_login` datetime NULL DEFAULT NULL,
+  `last_login` datetime(0) NULL DEFAULT NULL,
   `is_superuser` tinyint(1) NOT NULL,
   `username` varchar(150) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `first_name` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `last_name` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `is_staff` tinyint(1) NOT NULL,
   `is_active` tinyint(1) NOT NULL,
-  `date_joined` datetime NOT NULL,
-  `email` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `date_joined` datetime(0) NOT NULL,
+  `email` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `username`(`username`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+  UNIQUE INDEX `username`(`username`) USING BTREE,
+  UNIQUE INDEX `users_user_email_243f6e77_uniq`(`email`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 26 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of users_user
 -- ----------------------------
 INSERT INTO `users_user` VALUES (1, 'pbkdf2_sha256$36000$CFaNxauLoDiL$6dg9xJKLq0MuFVgbToTLWftoxeQ7jbVzYuL/dinN6D8=', '2018-10-19 17:16:33', 1, 'admin', '', '', 1, 1, '2018-10-18 17:28:02', '957824770@qq.com');
-INSERT INTO `users_user` VALUES (2, 'pbkdf2_sha256$36000$xO5AKUdPakr1$vC+hmb7luxKMqWPk0RNh9bGjcv48RXvrXfMM1UX7D8g=', '2018-10-19 17:16:20', 0, 'test', '', '', 0, 1, '2018-10-19 17:15:11', 'test');
+INSERT INTO `users_user` VALUES (16, 'pbkdf2_sha256$36000$Y65aPoBJ85Ww$JOPIHrKe+cw56mU3QvXjU1/GAbFUPKWdZ0qTlBn9LPA=', '2018-10-22 15:22:10', 0, 'test', '', '', 0, 1, '2018-10-22 14:46:28', '1@qq.com');
+INSERT INTO `users_user` VALUES (17, 'pbkdf2_sha256$36000$bVSXKzOlkCvA$ECIBX8+6QrlVrBSKhr4eiLbSmy79sUhwd5wyPiMlnkE=', NULL, 0, 'test1', '', '', 0, 1, '2018-10-22 16:36:24', '123456@qq.com');
+INSERT INTO `users_user` VALUES (18, 'pbkdf2_sha256$36000$vy1bxAjO0WhW$Q465pT5SK6O9jGdzAxWgJ2M/N7K4uX81Y51E3e0LnOA=', NULL, 0, '1', '', '', 0, 1, '2018-10-22 16:39:27', '12@qq.com');
+INSERT INTO `users_user` VALUES (19, 'pbkdf2_sha256$36000$wslQN1uCQ0nG$HgM9KHsEF2cu9QGDS8AcnlrlX/VDnQxFgz2SrwlZGl4=', NULL, 0, '12', '', '', 0, 1, '2018-10-22 16:42:02', '123@qq.com');
+INSERT INTO `users_user` VALUES (20, 'pbkdf2_sha256$36000$2qGxCcYai1O6$7asqfGwLfzz9bElr6hG1d/mcMSnYvsGnV/SAF0WVDAw=', NULL, 0, '1234', '', '', 0, 1, '2018-10-22 16:43:41', '1111@qq.com');
+INSERT INTO `users_user` VALUES (21, 'pbkdf2_sha256$36000$5zECnZq1ExBv$Or2BBPAk9FwzWm7kflJCdXuVe7v8RaOQ33/7+deDK7k=', NULL, 0, '123456', '', '', 0, 1, '2018-10-22 16:46:07', '11111@qq.com');
+INSERT INTO `users_user` VALUES (22, 'pbkdf2_sha256$36000$cWLeLNQHeBA0$hKk1TesJwPxsztbKqSJvIKQnURn5hK4ZGrqxCUDDvwE=', NULL, 0, 'test22', '', '', 0, 1, '2018-10-24 11:13:58', '111@qq.com');
+INSERT INTO `users_user` VALUES (23, '123456', NULL, 0, '111', '', '', 0, 1, '2018-10-24 11:17:32', '222@qq.com');
+INSERT INTO `users_user` VALUES (24, 'pbkdf2_sha256$36000$qghU4qyUTSKv$6RBCcu2/z6wdb2QB6u+5/lVjtFPKXlWZlW3mrbKV6Uk=', NULL, 0, '22222', '', '', 0, 1, '2018-10-24 11:18:43', '22222@qq.com');
+INSERT INTO `users_user` VALUES (25, 'pbkdf2_sha256$36000$QPK7vCSesGUf$W4mCcNh9xqiWQpsF9ggJfVG9JKl6LAsK43RWXNQKjns=', NULL, 0, 'test444', '', '', 0, 1, '2018-10-24 11:25:39', '555@qq.com');
 
 -- ----------------------------
 -- Table structure for users_user_groups
@@ -442,8 +506,8 @@ CREATE TABLE `users_user_user_permissions`  (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `users_user_user_permissions_user_id_permission_id_43338c45_uniq`(`user_id`, `permission_id`) USING BTREE,
   INDEX `users_user_user_perm_permission_id_0b93982e_fk_auth_perm`(`permission_id`) USING BTREE,
-  CONSTRAINT `users_user_user_permissions_user_id_20aca447_fk_users_user_id` FOREIGN KEY (`user_id`) REFERENCES `users_user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `users_user_user_perm_permission_id_0b93982e_fk_auth_perm` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+  CONSTRAINT `users_user_user_perm_permission_id_0b93982e_fk_auth_perm` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `users_user_user_permissions_user_id_20aca447_fk_users_user_id` FOREIGN KEY (`user_id`) REFERENCES `users_user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
@@ -486,7 +550,7 @@ CREATE TABLE `xadmin_bookmark`  (
 DROP TABLE IF EXISTS `xadmin_log`;
 CREATE TABLE `xadmin_log`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `action_time` datetime NOT NULL,
+  `action_time` datetime(0) NOT NULL,
   `ip_addr` char(39) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `object_id` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
   `object_repr` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
