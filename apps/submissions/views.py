@@ -2,12 +2,13 @@ from rest_framework import filters
 from rest_framework import mixins
 from rest_framework.response import Response
 from rest_framework.pagination import PageNumberPagination
-from .models import Submissions
+from .models import Submissions, SubmissionToken
 from rest_framework import viewsets, status
-from .serializers import SubmissionsSerializer
+from .serializers import SubmissionsSerializer, SubmissionTokenSerializer
 from django_filters.rest_framework import DjangoFilterBackend
 from .filters import SubmissionsFilter
 from judge.client import http_post
+from judge import token
 
 # Create your views here.
 
@@ -20,7 +21,6 @@ class SubmissionsPagination(PageNumberPagination):
 
 
 class SubmissionsListViewSet(
-        mixins.UpdateModelMixin,
         mixins.CreateModelMixin,
         mixins.DestroyModelMixin,
         mixins.ListModelMixin,
@@ -40,14 +40,47 @@ class SubmissionsListViewSet(
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        submission = self.perform_create(serializer)
+        self.perform_create(serializer)
         http_post(serializer.data)
         re_dict = serializer.data
         headers = self.get_success_headers(serializer.data)
-        return Response(re_dict, status=status.HTTP_201_CREATED, headers=headers)
+        return Response(
+            re_dict,
+            status=status.HTTP_201_CREATED,
+            headers=headers)
 
     def perform_update(self, serializer):
         return serializer.save()
 
     def perform_destroy(self, instance):
         return instance.delete()
+
+
+class SubmissionTokenListViewSet(
+        mixins.CreateModelMixin,
+        mixins.UpdateModelMixin,
+        mixins.DestroyModelMixin,
+        mixins.ListModelMixin,
+        mixins.RetrieveModelMixin,
+        viewsets.GenericViewSet):
+    queryset = SubmissionToken.objects.get_queryset().order_by('id')
+    serializer_class = SubmissionTokenSerializer
+    pagination_class = SubmissionsPagination
+    filter_backends = (
+        DjangoFilterBackend,
+        filters.SearchFilter,
+        filters.OrderingFilter
+    )
+
+    def update(self, request, *args, **kwargs):
+        data = request.data
+        submissionToken = SubmissionToken.objects.get(pk=data["id"])
+        if submissionToken.token != data["token"]:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        if token.certify_token(token.key, submissionToken.token) == False:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        submission = submissionToken.submission
+        submission.result = data["result"]
+        submission.save()
+        submissionToken.delete()
+        return Response(status=status.HTTP_200_OK)

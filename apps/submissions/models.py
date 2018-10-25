@@ -23,7 +23,11 @@ class JudgeStatus:
 
 class Submissions(models.Model):
     user = models.ForeignKey(User, verbose_name="用户")
-    contest = models.ForeignKey(Contests, verbose_name="比赛", blank=True, null=True)
+    contest = models.ForeignKey(
+        Contests,
+        verbose_name="比赛",
+        blank=True,
+        null=True)
     problem = models.ForeignKey(Problems, verbose_name="题目")
     submit_time = models.DateTimeField(auto_now_add=True, verbose_name="提交时间")
     result = models.IntegerField(
@@ -44,3 +48,16 @@ class Submissions(models.Model):
 
     def check_permission(self):
         pass
+
+
+class SubmissionToken(models.Model):
+    submission = models.ForeignKey(Submissions)
+    token = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.submission.user.username
+
+    class Meta:
+        verbose_name = "提交记录Token"
+        verbose_name_plural = verbose_name
+        db_table = "submission_token"

@@ -29,7 +29,7 @@ SECRET_KEY = 'c5nm^wz5q_3w^#=el$+im!xe@^^nou*e60n)z6_zwe8g@-g2=s'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 AUTH_USER_MODEL = 'users.User'
 
@@ -99,7 +99,7 @@ DATABASES = {
         'USER': 'root',
         'PASSWORD': "123456",
         'HOST': "127.0.0.1",
-        "OPTIONS":{"init_command":"SET default_storage_engine=INNODB;"}
+        "OPTIONS": {"init_command": "SET default_storage_engine=INNODB;"}
     }
 }
 

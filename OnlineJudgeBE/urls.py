@@ -21,7 +21,7 @@ from rest_framework.routers import DefaultRouter
 from rest_framework_jwt.views import obtain_jwt_token
 from problems.views import ProblemsListViewSet
 from contests.views import ContestsListViewSet
-from submissions.views import SubmissionsListViewSet
+from submissions.views import SubmissionsListViewSet, SubmissionTokenListViewSet
 from user_operation.views import UserCollectListViewSet
 from users.views import UserRegViewSet
 from users.views import UserViewSet
@@ -35,6 +35,10 @@ router.register(
     r'submissions',
     SubmissionsListViewSet,
     base_name="submissions")
+router.register(
+    r'submissiontoken',
+    SubmissionTokenListViewSet,
+    base_name="submissiontoken")
 router.register(
     r'useroperation',
     UserCollectListViewSet,
