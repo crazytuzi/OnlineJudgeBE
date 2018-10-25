@@ -57,20 +57,10 @@ class SubmissionsListViewSet(
 
 
 class SubmissionTokenListViewSet(
-        mixins.CreateModelMixin,
         mixins.UpdateModelMixin,
-        mixins.DestroyModelMixin,
-        mixins.ListModelMixin,
-        mixins.RetrieveModelMixin,
         viewsets.GenericViewSet):
     queryset = SubmissionToken.objects.get_queryset().order_by('id')
     serializer_class = SubmissionTokenSerializer
-    pagination_class = SubmissionsPagination
-    filter_backends = (
-        DjangoFilterBackend,
-        filters.SearchFilter,
-        filters.OrderingFilter
-    )
 
     def update(self, request, *args, **kwargs):
         data = request.data
