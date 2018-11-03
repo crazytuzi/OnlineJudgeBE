@@ -88,7 +88,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'OnlineJudgeBE.wsgi.application'
 
-
+import pymysql
+pymysql.install_as_MySQLdb()
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
