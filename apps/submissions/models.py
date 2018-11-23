@@ -48,6 +48,7 @@ class Submissions(models.Model):
         return self.user.username
 
     class Meta:
+        ordering = ['-submit_time']
         verbose_name = "提交记录"
         verbose_name_plural = verbose_name
         db_table = "submissions"

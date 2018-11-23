@@ -62,6 +62,7 @@ class UserRegViewSet(CreateModelMixin, viewsets.GenericViewSet):
         user = self.perform_create(serializer)
         re_dict = serializer.data
         payload = jwt_payload_handler(user)
+        re_dict["id"] = user.id
         re_dict["token"] = jwt_encode_handler(payload)
         headers = self.get_success_headers(serializer.data)
         return Response(re_dict, status=status.HTTP_201_CREATED, headers=headers)

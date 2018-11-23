@@ -26,7 +26,7 @@ class SubmissionsListViewSet(
         mixins.ListModelMixin,
         mixins.RetrieveModelMixin,
         viewsets.GenericViewSet):
-    queryset = Submissions.objects.get_queryset().order_by('id')
+    queryset = Submissions.objects.all()
     serializer_class = SubmissionsSerializer
     pagination_class = SubmissionsPagination
     filter_backends = (
@@ -59,7 +59,7 @@ class SubmissionsListViewSet(
 class SubmissionTokenListViewSet(
         mixins.UpdateModelMixin,
         viewsets.GenericViewSet):
-    queryset = SubmissionToken.objects.get_queryset().order_by('id')
+    queryset = SubmissionToken.objects.all()
     serializer_class = SubmissionTokenSerializer
 
     def update(self, request, *args, **kwargs):
