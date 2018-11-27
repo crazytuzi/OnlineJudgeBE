@@ -73,6 +73,7 @@ class SubmissionTokenListViewSet(
         submission.result = data["result"]
         submission.time_cost = data['time_cost']
         submission.memory_cost = data['memory_cost']
+        submission.problem.update_submission(submission.result)
         submission.save()
         submissionToken.delete()
         return Response(status=status.HTTP_200_OK)

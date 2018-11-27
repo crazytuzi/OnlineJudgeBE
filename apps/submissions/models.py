@@ -2,29 +2,10 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from contests.models import Contests
 from problems.models import Problems
+from judge.JudgeStatus import JudgeStatus
 
 # Create your models here.
 User = get_user_model()
-
-
-class JudgeStatus:
-    PENDING = 0
-    ACCEPTED = 1
-    PRESENTATION_ERROR = 2
-    WRONG_ANSWER = 3
-    TIME_LIMIT_EXCEED = 4
-    MEMORY_LIMIT_EXCEED = 5
-    OUTPUT_LIMIT_EXCEED = 6
-    RUNTIME_ERROR = 7
-    COMPILE_ERROR = 8
-    RESTRICTED_FUNCTION = 9
-    SYSTEM_ERROR = 10
-    COMPILE_SPECIAL_JUDGE_ERROR = 11
-    RUN_SPECIAL_JUDGE_ERROR = 12
-    JUDGER_ERROR = 13
-    PARTLY_CORRECT = 14
-    NO_ANSWERS = 15
-    RUN_SUCCESSFULLY = 16
 
 
 class Submissions(models.Model):

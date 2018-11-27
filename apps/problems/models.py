@@ -1,5 +1,6 @@
 from django.db import models
 from contests.models import Contests
+from judge.JudgeStatus import JudgeStatus
 # Create your models here.
 
 
@@ -36,6 +37,7 @@ class Problems(models.Model):
     compile_error_number = models.IntegerField(default=0, verbose_name="编译错误")
     presentation_error_number = models.IntegerField(
         default=0, verbose_name="格式错误")
+    other_error_number = models.IntegerField(default=0, verbose_name="其他错误")
     tags = models.ManyToManyField(ProblemTag, blank=True, verbose_name="标签")
     create_time = models.DateTimeField(auto_now_add=True, verbose_name="创建时间")
 
@@ -46,6 +48,27 @@ class Problems(models.Model):
         verbose_name = "题目"
         verbose_name_plural = verbose_name
         db_table = "problems"
+
+    def update_submission(self, status):
+        if status == JudgeStatus.ACCEPTED:
+            self.add_accepted_number()
+        elif status == JudgeStatus.WRONG_ANSWER:
+            self.add_wrong_answer_number()
+        elif status == JudgeStatus.TIME_LIMIT_EXCEED:
+            self.add_time_limit_number()
+        elif status == JudgeStatus.MEMORY_LIMIT_EXCEED:
+            self.add_memory_limit_number()
+        elif status == JudgeStatus.RUNTIME_ERROR:
+            self.add_runtime_error_number()
+        elif status == JudgeStatus.OUTPUT_LIMIT_EXCEED:
+            self.add_output_limit_number()
+        elif status == JudgeStatus.COMPILE_ERROR:
+            self.add_compile_error_number()
+        elif status == JudgeStatus.PRESENTATION_ERROR:
+            self.add_presentation_error_number()
+        else:
+            self.add_other_error_number()
+        self.add_submission_number()
 
     def add_submission_number(self):
         self.submission_number = models.F("submission_number") + 1
@@ -82,3 +105,7 @@ class Problems(models.Model):
     def add_presentation_error_number(self):
         self.accepted_number = models.F("presentation_error_number") + 1
         self.save(update_fields=["presentation_error_number"])
+
+    def add_other_error_number(self):
+        self.other_error_number = models.F("other_error_number") + 1
+        self.save(update_fields=["other_error_number"])
