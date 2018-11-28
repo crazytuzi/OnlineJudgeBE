@@ -19,19 +19,15 @@ import xadmin
 from rest_framework.documentation import include_docs_urls
 from rest_framework.routers import DefaultRouter
 from rest_framework_jwt.views import obtain_jwt_token
-from problems.views import ProblemsListViewSet, ContestProblemsListViewSet
+from problems.views import ProblemsListViewSet
 from contests.views import ContestsListViewSet
 from submissions.views import SubmissionsListViewSet, SubmissionTokenListViewSet
-from user_operation.views import UserCollectListViewSet
+from user_operation.views import UserCollectListViewSet, UserAcceptedProblemListViewSet
 from users.views import UserRegViewSet
 from users.views import UserViewSet
 
 router = DefaultRouter()
 router.register(r'problems', ProblemsListViewSet, base_name="problems")
-router.register(
-    r'contestproblems',
-    ContestProblemsListViewSet,
-    base_name="contestproblems")
 router.register(r'contests', ContestsListViewSet, base_name="contests")
 router.register(r'register', UserRegViewSet, base_name="register")
 router.register(r'users', UserViewSet, base_name="users")
@@ -44,9 +40,13 @@ router.register(
     SubmissionTokenListViewSet,
     base_name="submissiontoken")
 router.register(
-    r'useroperation',
+    r'usercollect',
     UserCollectListViewSet,
-    base_name="useroperation")
+    base_name="usercollect")
+router.register(
+    r'useracceptedproblems',
+    UserAcceptedProblemListViewSet,
+    base_name="useracceptedproblems")
 
 urlpatterns = [
     # url(r'^admin/', admin.site.urls),

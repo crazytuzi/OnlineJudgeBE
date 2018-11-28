@@ -14,7 +14,14 @@ class ProblemTag(models.Model):
 class Problems(models.Model):
     problem_id = models.IntegerField(
         db_index=True, default=0, verbose_name="题目编号")
-    title = models.CharField(unique=True, max_length=255, verbose_name="标题")
+    parent_problem = models.ForeignKey(
+        "self", null=True, blank=True)
+    contest = models.ForeignKey(
+        Contests,
+        null=True,
+        blank=True,
+        verbose_name="比赛")
+    title = models.CharField(max_length=255, verbose_name="标题")
     description = models.TextField(null=True, verbose_name="题目描述")
     input_description = models.TextField(null=True, verbose_name="输入描述")
     output_description = models.TextField(null=True, verbose_name="输出描述")
@@ -47,9 +54,11 @@ class Problems(models.Model):
         verbose_name_plural = verbose_name
         db_table = "problems"
 
-    def update_submission(self, status):
+    def update_submission(self, status, user):
         if status == JudgeStatus.ACCEPTED:
+            from user_operation.models import UserAcceptedProblems
             self.add_accepted_number()
+            UserAcceptedProblems.objects.get_or_create(user=user, problem=self)
         elif status == JudgeStatus.WRONG_ANSWER:
             self.add_wrong_answer_number()
         elif status == JudgeStatus.TIME_LIMIT_EXCEED:
@@ -107,16 +116,3 @@ class Problems(models.Model):
     def add_other_error_number(self):
         self.other_error_number = models.F("other_error_number") + 1
         self.save(update_fields=["other_error_number"])
-
-
-class ContentProblems(Problems):
-    parent_problem = models.ForeignKey(
-        Problems, related_name="copy_problem")
-    contest = models.ForeignKey(
-        Contests,
-        verbose_name="比赛")
-
-    class Meta:
-        verbose_name = "比赛题目"
-        verbose_name_plural = verbose_name
-        db_table = "contest_problems"

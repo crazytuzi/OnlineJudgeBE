@@ -2,11 +2,10 @@ from rest_framework import filters
 from rest_framework import mixins
 from rest_framework import viewsets
 from rest_framework.pagination import PageNumberPagination
-from rest_framework_extensions.cache.mixins import CacheResponseMixin
-from .models import UserCollect
-from .serializers import UserCollectSerializer
+from .models import UserCollect, UserAcceptedProblems
+from .serializers import UserCollectSerializer, UserAcceptedProblemSerializer
 from django_filters.rest_framework import DjangoFilterBackend
-from .filters import UserCollectFilter
+from .filters import UserCollectFilter, UserAcceptedProblemFilter
 
 # Create your views here.
 
@@ -30,4 +29,19 @@ class UserCollectListViewSet(
         filters.OrderingFilter
     )
     filter_class = UserCollectFilter
+    ordering_fields = ('create_time',)
+
+
+class UserAcceptedProblemListViewSet(
+        mixins.ListModelMixin,
+        viewsets.GenericViewSet):
+    queryset = UserAcceptedProblems.objects.all()
+    serializer_class = UserAcceptedProblemSerializer
+    pagination_class = UserCollectPagination
+    filter_backends = (
+        DjangoFilterBackend,
+        filters.SearchFilter,
+        filters.OrderingFilter
+    )
+    filter_class = UserAcceptedProblemFilter
     ordering_fields = ('create_time',)

@@ -1,14 +1,8 @@
 from rest_framework import serializers
-from .models import Problems, ContentProblems
+from .models import Problems
 
 
 class ProblemsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Problems
-        fields = "__all__"
-
-
-class ContestProblemsSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ContentProblems
         fields = "__all__"
