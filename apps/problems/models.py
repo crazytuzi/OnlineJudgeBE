@@ -14,11 +14,6 @@ class ProblemTag(models.Model):
 class Problems(models.Model):
     problem_id = models.IntegerField(
         db_index=True, default=0, verbose_name="题目编号")
-    contest = models.ForeignKey(
-        Contests,
-        blank=True,
-        null=True,
-        verbose_name="比赛")
     title = models.CharField(unique=True, max_length=255, verbose_name="标题")
     description = models.TextField(null=True, verbose_name="题目描述")
     input_description = models.TextField(null=True, verbose_name="输入描述")
@@ -38,8 +33,11 @@ class Problems(models.Model):
     presentation_error_number = models.IntegerField(
         default=0, verbose_name="格式错误")
     other_error_number = models.IntegerField(default=0, verbose_name="其他错误")
-    tags = models.ManyToManyField(ProblemTag, blank=True, verbose_name="标签")
     create_time = models.DateTimeField(auto_now_add=True, verbose_name="创建时间")
+    tags = models.ManyToManyField(
+        ProblemTag,
+        blank=True,
+        verbose_name="标签")
 
     def __str__(self):
         return self.title
@@ -109,3 +107,16 @@ class Problems(models.Model):
     def add_other_error_number(self):
         self.other_error_number = models.F("other_error_number") + 1
         self.save(update_fields=["other_error_number"])
+
+
+class ContentProblems(Problems):
+    parent_problem = models.ForeignKey(
+        Problems, related_name="copy_problem")
+    contest = models.ForeignKey(
+        Contests,
+        verbose_name="比赛")
+
+    class Meta:
+        verbose_name = "比赛题目"
+        verbose_name_plural = verbose_name
+        db_table = "contest_problems"

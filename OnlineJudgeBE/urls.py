@@ -19,7 +19,7 @@ import xadmin
 from rest_framework.documentation import include_docs_urls
 from rest_framework.routers import DefaultRouter
 from rest_framework_jwt.views import obtain_jwt_token
-from problems.views import ProblemsListViewSet
+from problems.views import ProblemsListViewSet, ContestProblemsListViewSet
 from contests.views import ContestsListViewSet
 from submissions.views import SubmissionsListViewSet, SubmissionTokenListViewSet
 from user_operation.views import UserCollectListViewSet
@@ -28,6 +28,10 @@ from users.views import UserViewSet
 
 router = DefaultRouter()
 router.register(r'problems', ProblemsListViewSet, base_name="problems")
+router.register(
+    r'contestproblems',
+    ContestProblemsListViewSet,
+    base_name="contestproblems")
 router.register(r'contests', ContestsListViewSet, base_name="contests")
 router.register(r'register', UserRegViewSet, base_name="register")
 router.register(r'users', UserViewSet, base_name="users")
