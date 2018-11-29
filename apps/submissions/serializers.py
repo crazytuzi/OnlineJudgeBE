@@ -4,6 +4,7 @@ from .models import Submissions, SubmissionToken
 
 class SubmissionsSerializer(serializers.ModelSerializer):
     username = serializers.SerializerMethodField()
+    submit_time = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S")
 
     def get_username(self, obj):
         return obj.user.username
