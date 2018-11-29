@@ -55,10 +55,15 @@ class Problems(models.Model):
         db_table = "problems"
 
     def update_submission(self, status, user):
+        from user_operation.models import UserChallengingProblems
+        self.add_submission_number()
         if status == JudgeStatus.ACCEPTED:
             from user_operation.models import UserAcceptedProblems
             self.add_accepted_number()
             UserAcceptedProblems.objects.get_or_create(user=user, problem=self)
+            UserChallengingProblems.objects.get(
+                user=user, problem=self).delete()
+            return
         elif status == JudgeStatus.WRONG_ANSWER:
             self.add_wrong_answer_number()
         elif status == JudgeStatus.TIME_LIMIT_EXCEED:
@@ -75,7 +80,9 @@ class Problems(models.Model):
             self.add_presentation_error_number()
         else:
             self.add_other_error_number()
-        self.add_submission_number()
+        if self.parent_problem is not None:
+            UserChallengingProblems.objects.get_or_create(
+                user=user, problem=self)
 
     def add_submission_number(self):
         self.submission_number = models.F("submission_number") + 1

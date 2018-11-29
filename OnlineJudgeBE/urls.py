@@ -22,7 +22,7 @@ from rest_framework_jwt.views import obtain_jwt_token
 from problems.views import ProblemsListViewSet
 from contests.views import ContestsListViewSet
 from submissions.views import SubmissionsListViewSet, SubmissionTokenListViewSet
-from user_operation.views import UserCollectListViewSet, UserAcceptedProblemListViewSet
+from user_operation.views import UserCollectListViewSet, UserAcceptedProblemListViewSet,UserChallengingProblemListViewSet
 from users.views import UserRegViewSet
 from users.views import UserViewSet
 
@@ -47,6 +47,10 @@ router.register(
     r'useracceptedproblems',
     UserAcceptedProblemListViewSet,
     base_name="useracceptedproblems")
+router.register(
+    r'userchallengingproblems',
+    UserChallengingProblemListViewSet,
+    base_name="userchallengingproblems")
 
 urlpatterns = [
     # url(r'^admin/', admin.site.urls),

@@ -1,19 +1,23 @@
 from django_filters import rest_framework
-import django_filters
-from .models import UserCollect, UserAcceptedProblems
+from .models import UserCollect, UserAcceptedProblems, UserChallengingProblems
+from Utlis.NullFilter import NullFilter
 
 
 class UserCollectFilter(rest_framework.FilterSet):
-    user__id = django_filters.NumberFilter()
-
     class Meta:
         model = UserCollect
-        fields = ['user__id', ]
+        fields = ['user']
 
 
 class UserAcceptedProblemFilter(rest_framework.FilterSet):
-    user__id = django_filters.NumberFilter()
+    iscontest = NullFilter(field_name="problem__contest")
 
     class Meta:
         model = UserAcceptedProblems
-        fields = ['user__id', ]
+        fields = ['user', 'iscontest']
+
+
+class UserChallengingProblemFilter(rest_framework.FilterSet):
+    class Meta:
+        model = UserChallengingProblems
+        fields = ['user']
