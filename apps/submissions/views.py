@@ -7,8 +7,8 @@ from rest_framework import viewsets, status
 from .serializers import SubmissionsSerializer, SubmissionTokenSerializer
 from django_filters.rest_framework import DjangoFilterBackend
 from .filters import SubmissionsFilter
-from judge.client import http_post
-from judge import token
+from Utlis.Client import http_post
+from Utlis import Token
 
 # Create your views here.
 
@@ -67,7 +67,7 @@ class SubmissionTokenListViewSet(
         submissionToken = SubmissionToken.objects.get(pk=data["id"])
         if submissionToken.token != data["token"]:
             return Response(status=status.HTTP_400_BAD_REQUEST)
-        if token.certify_token(token.key, submissionToken.token) == False:
+        if Token.certify_token(Token.key, submissionToken.token) == False:
             return Response(status=status.HTTP_400_BAD_REQUEST)
         submission = submissionToken.submission
         submission.result = data["result"]

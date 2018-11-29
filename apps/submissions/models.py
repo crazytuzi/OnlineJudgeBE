@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from contests.models import Contests
 from problems.models import Problems
-from judge.JudgeStatus import JudgeStatus
+from Utlis.JudgeStatus import JudgeStatus
 
 # Create your models here.
 User = get_user_model()

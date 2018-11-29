@@ -1,5 +1,5 @@
 import requests
-from . import token
+from . import Token
 import json
 from rest_framework.renderers import JSONRenderer
 from submissions.models import Submissions, SubmissionToken
@@ -15,7 +15,7 @@ def http_post(data):
         jdata["problem"] = problem.parent_problem.id
     submissionToken = SubmissionToken.objects.create(
         submission=Submissions.objects.get(pk=jdata["id"]),
-        token=token.generate_token(token.key)
+        token=Token.generate_token(Token.key)
     )
     # jdata need reset
     jdata["id"] = submissionToken.id

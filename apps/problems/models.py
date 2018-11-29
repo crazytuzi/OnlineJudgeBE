@@ -1,6 +1,6 @@
 from django.db import models
 from contests.models import Contests
-from judge.JudgeStatus import JudgeStatus
+from Utlis.JudgeStatus import JudgeStatus
 # Create your models here.
 
 
