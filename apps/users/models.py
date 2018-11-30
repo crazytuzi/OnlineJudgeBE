@@ -10,7 +10,6 @@ class User(AbstractUser):
         max_length=100,
         unique=True,
         blank=False,
-        default="957824770@qq.com",
         verbose_name="邮箱")
 
     class Meta:
@@ -25,13 +24,3 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     avatar = models.TextField(
         default=f"{settings.AVATAR_URI_PREFIX}/default.png")
-    accepted_number = models.IntegerField(default=0)
-    submission_number = models.IntegerField(default=0)
-
-    def add_accepted_number(self):
-        self.accepted_number = models.F("accepted_number") + 1
-        self.save(update_fields=["accepted_number"])
-
-    def add_submission_number(self):
-        self.submission_number = models.F("submission_number") + 1
-        self.save(update_fields=["submission_number"])

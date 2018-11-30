@@ -21,6 +21,7 @@ class Contests(models.Model):
     class Meta:
         verbose_name = "比赛"
         verbose_name_plural = verbose_name
+        ordering = ['-end_time']
         db_table = "contests"
 
     def status(self):
