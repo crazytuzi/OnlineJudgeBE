@@ -37,7 +37,6 @@ class UserAcceptedProblemListViewSet(
         viewsets.GenericViewSet):
     queryset = UserAcceptedProblems.objects.all()
     serializer_class = UserAcceptedProblemSerializer
-    pagination_class = UserCollectPagination
     filter_backends = (
         DjangoFilterBackend,
         filters.SearchFilter,
@@ -52,7 +51,6 @@ class UserChallengingProblemListViewSet(
         viewsets.GenericViewSet):
     queryset = UserChallengingProblems.objects.all()
     serializer_class = UserChallengingProblemSerializer
-    pagination_class = UserCollectPagination
     filter_backends = (
         DjangoFilterBackend,
         filters.SearchFilter,
