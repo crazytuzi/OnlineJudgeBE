@@ -2,7 +2,6 @@ from rest_framework import filters
 from rest_framework import mixins
 from rest_framework import viewsets
 from rest_framework.pagination import PageNumberPagination
-from rest_framework_extensions.cache.mixins import CacheResponseMixin
 from .models import Contests
 from .serializers import ContestsSerializer
 from django_filters.rest_framework import DjangoFilterBackend
@@ -19,7 +18,7 @@ class ContestsPagination(PageNumberPagination):
 
 
 class ContestsListViewSet(
-        CacheResponseMixin,
+        mixins.RetrieveModelMixin,
         mixins.ListModelMixin,
         viewsets.GenericViewSet):
     queryset = Contests.objects.all()

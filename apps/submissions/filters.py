@@ -16,5 +16,6 @@ class SubmissionsFilter(rest_framework.FilterSet):
             'user',
             'problem__problem_id',
             'result',
-            'iscontest'
+            'iscontest',
+            'contest'
         ]
