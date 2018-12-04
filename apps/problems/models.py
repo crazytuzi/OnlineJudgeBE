@@ -60,6 +60,8 @@ class Problems(models.Model):
         if status == JudgeStatus.ACCEPTED:
             from user_operation.models import UserAcceptedProblems
             self.add_accepted_number()
+            if self.contest is not None and not self.contest.status():
+                return
             UserAcceptedProblems.objects.get_or_create(user=user, problem=self)
             UserChallengingProblems.objects.get(
                 user=user, problem=self).delete()

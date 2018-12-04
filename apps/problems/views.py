@@ -21,7 +21,7 @@ class ProblemsListViewSet(
         mixins.ListModelMixin,
         mixins.RetrieveModelMixin,
         viewsets.GenericViewSet):
-    queryset = Problems.objects.all()
+    queryset = Problems.objects.all().order_by('problem_id')
     serializer_class = ProblemsSerializer
     pagination_class = ProblemsPagination
     filter_backends = (

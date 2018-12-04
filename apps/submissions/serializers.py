@@ -6,9 +6,16 @@ class SubmissionsSerializer(serializers.ModelSerializer):
     username = serializers.SerializerMethodField()
     submit_time = serializers.DateTimeField(
         read_only=True, format="%Y-%m-%d %H:%M:%S")
+    parent = serializers.SerializerMethodField(read_only=True)
 
     def get_username(self, obj):
         return obj.user.username
+
+    def get_parent(self, obj):
+        if obj.problem.parent_problem is not None:
+            return obj.problem.parent_problem.problem_id
+        else:
+            return None
 
     def create(self, validated_data):
         problem = validated_data['problem']
