@@ -23,14 +23,14 @@ from problems.views import ProblemsListViewSet
 from contests.views import ContestsListViewSet
 from submissions.views import SubmissionsListViewSet, SubmissionTokenListViewSet
 from user_operation.views import UserCollectListViewSet, UserAcceptedProblemListViewSet,UserChallengingProblemListViewSet
-from users.views import UserRegViewSet
-from users.views import UserViewSet
+from users.views import UserRegViewSet,UserViewSet,UserProfileListViewSet
 
 router = DefaultRouter()
 router.register(r'problems', ProblemsListViewSet, base_name="problems")
 router.register(r'contests', ContestsListViewSet, base_name="contests")
 router.register(r'register', UserRegViewSet, base_name="register")
 router.register(r'users', UserViewSet, base_name="users")
+router.register(r'userprofile', UserProfileListViewSet, base_name="userprofile")
 router.register(
     r'submissions',
     SubmissionsListViewSet,

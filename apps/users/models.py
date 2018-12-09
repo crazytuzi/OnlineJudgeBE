@@ -24,3 +24,16 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     avatar = models.TextField(
         default=f"{settings.AVATAR_URI_PREFIX}/default.png")
+    accepted_num = models.IntegerField(default=0)
+    submission_num = models.IntegerField(default=0)
+
+    def add_submission_number(self):
+        self.submission_num = models.F("submission_num") + 1
+        self.save(update_fields=["submission_num"])
+
+    def add_accepted_number(self):
+        self.accepted_num = models.F("accepted_num") + 1
+        self.save(update_fields=["accepted_num"])
+
+    class Meta:
+        ordering = ["-accepted_num","submission_num"]

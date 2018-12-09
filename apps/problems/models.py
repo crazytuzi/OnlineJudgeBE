@@ -1,6 +1,8 @@
 from django.db import models
 from contests.models import Contests
 from Utlis.JudgeStatus import JudgeStatus
+from apps.users.models import UserProfile
+from django.core.exceptions import ObjectDoesNotExist
 # Create your models here.
 
 
@@ -56,15 +58,23 @@ class Problems(models.Model):
 
     def update_submission(self, status, user):
         from user_operation.models import UserChallengingProblems
+        userProfile = UserProfile.objects.get(user=user)
         self.add_submission_number()
+        if self.contest is None:
+            userProfile.add_submission_number()
         if status == JudgeStatus.ACCEPTED:
             from user_operation.models import UserAcceptedProblems
             self.add_accepted_number()
             if self.contest is not None and not self.contest.status():
                 return
-            UserAcceptedProblems.objects.get_or_create(user=user, problem=self)
-            UserChallengingProblems.objects.get(
-                user=user, problem=self).delete()
+            obj,created=UserAcceptedProblems.objects.get_or_create(user=user, problem=self)
+            if created == True:
+                userProfile.add_accepted_number()
+                try:
+                    UserChallengingProblems.objects.get(
+                        user=user, problem=self).delete()
+                except ObjectDoesNotExist:
+                    pass
             return
         elif status == JudgeStatus.WRONG_ANSWER:
             self.add_wrong_answer_number()

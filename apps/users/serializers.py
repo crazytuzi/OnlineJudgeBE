@@ -1,7 +1,7 @@
 from rest_framework.validators import UniqueValidator
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
-
+from apps.users.models import UserProfile
 User = get_user_model()
 
 
@@ -10,6 +10,10 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ("id", "username", "email")
 
+class UserProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserProfile
+        fields = "__all__"
 
 class UserRegSerializer(serializers.ModelSerializer):
     username = serializers.CharField(

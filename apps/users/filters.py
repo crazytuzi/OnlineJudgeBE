@@ -1,6 +1,7 @@
 from django_filters import rest_framework
 import django_filters
 from django.contrib.auth import get_user_model
+from apps.users.models import UserProfile
 User = get_user_model()
 
 
@@ -11,3 +12,8 @@ class UsersFilter(rest_framework.FilterSet):
     class Meta:
         model = User
         fields = ['username', 'email']
+
+class UserProfileFilter(rest_framework.FilterSet):
+    class Meta:
+        model = UserProfile
+        fields = []
