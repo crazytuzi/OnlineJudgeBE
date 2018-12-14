@@ -11,6 +11,9 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ("id", "username", "email")
 
 class UserProfileSerializer(serializers.ModelSerializer):
+    username = serializers.SerializerMethodField()
+    def get_username(self, obj):
+        return obj.user.username
     class Meta:
         model = UserProfile
         fields = "__all__"
