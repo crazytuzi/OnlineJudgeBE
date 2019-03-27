@@ -92,7 +92,7 @@ class Problems(models.Model):
             self.add_presentation_error_number()
         else:
             self.add_other_error_number()
-        if self.parent_problem is not None:
+        if self.parent_problem is None:
             UserChallengingProblems.objects.get_or_create(
                 user=user, problem=self)
 

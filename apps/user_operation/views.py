@@ -19,6 +19,9 @@ class UserCollectPagination(PageNumberPagination):
 
 class UserCollectListViewSet(
         mixins.ListModelMixin,
+        mixins.CreateModelMixin,
+        mixins.DestroyModelMixin,
+        mixins.RetrieveModelMixin,
         viewsets.GenericViewSet):
     queryset = UserCollect.objects.all()
     serializer_class = UserCollectSerializer
