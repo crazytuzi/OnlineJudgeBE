@@ -7,7 +7,7 @@ from Utlis.NullFilter import NullFilter
 class UserCollectFilter(rest_framework.FilterSet):
     class Meta:
         model = UserCollect
-        fields = ['user']
+        fields = ['user', 'problem']
 
 
 class UserAcceptedProblemFilter(rest_framework.FilterSet):
