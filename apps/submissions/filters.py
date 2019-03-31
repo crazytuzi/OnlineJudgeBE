@@ -14,6 +14,8 @@ class SubmissionsFilter(rest_framework.FilterSet):
         fields = [
             'id',
             'user',
+            'user__username',
+            'problem',
             'problem__problem_id',
             'result',
             'iscontest',
