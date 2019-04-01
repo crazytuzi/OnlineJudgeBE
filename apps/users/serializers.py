@@ -6,17 +6,26 @@ User = get_user_model()
 
 
 class UserSerializer(serializers.ModelSerializer):
+    isSuperUser = serializers.SerializerMethodField()
+
+    def get_isSuperUser(self, obj):
+        return obj.is_superuser
+
     class Meta:
         model = User
-        fields = ("id", "username", "email")
+        fields = ("id", "username", "email", 'isSuperUser')
+
 
 class UserProfileSerializer(serializers.ModelSerializer):
     username = serializers.SerializerMethodField()
+
     def get_username(self, obj):
         return obj.user.username
+
     class Meta:
         model = UserProfile
         fields = "__all__"
+
 
 class UserRegSerializer(serializers.ModelSerializer):
     username = serializers.CharField(
