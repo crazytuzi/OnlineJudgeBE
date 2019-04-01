@@ -23,6 +23,7 @@ class Submissions(models.Model):
         verbose_name="结果")
     memory_cost = models.IntegerField(default=0, verbose_name="运行时间")
     time_cost = models.IntegerField(default=0, verbose_name="运行内存")
+    language = models.IntegerField(default=0, verbose_name="编程语言")
     code = models.TextField(default=None, verbose_name="代码")
 
     def __str__(self):

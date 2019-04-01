@@ -18,6 +18,7 @@ class SubmissionsFilter(rest_framework.FilterSet):
             'problem',
             'problem__problem_id',
             'result',
+            'language',
             'iscontest',
             'contest'
         ]
