@@ -49,6 +49,14 @@ class SubmissionsListViewSet(
             status=status.HTTP_201_CREATED,
             headers=headers)
 
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        if request.user == instance.user or request.user.is_superuser:
+            serializer = self.get_serializer(instance)
+            return Response(serializer.data)
+        else:
+            return Response(status=status.HTTP_403_FORBIDDEN)
+
     def perform_update(self, serializer):
         return serializer.save()
 
