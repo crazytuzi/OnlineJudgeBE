@@ -16,7 +16,12 @@ class ContestsSerializer(serializers.ModelSerializer):
             return None
 
     def get_state(self, obj):
-        return obj.end_time > timezone.now()
+        if obj.start_time > timezone.now():
+            return 0
+        elif obj.end_time < timezone.now():
+            return 2
+        else:
+            return 1
 
     class Meta:
         model = Contests

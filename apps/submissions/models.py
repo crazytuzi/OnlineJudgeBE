@@ -35,9 +35,6 @@ class Submissions(models.Model):
         verbose_name_plural = verbose_name
         db_table = "submissions"
 
-    def check_permission(self):
-        pass
-
 
 class SubmissionToken(models.Model):
     submission = models.ForeignKey(Submissions)
