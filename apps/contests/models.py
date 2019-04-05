@@ -3,6 +3,8 @@ from django.contrib.auth import get_user_model
 
 
 # Create your models here.
+from django.utils import timezone
+
 User = get_user_model()
 
 
@@ -15,6 +17,9 @@ class Contests(models.Model):
     create_time = models.DateTimeField(auto_now_add=True, verbose_name="创建时间")
     create_by = models.ForeignKey(
         User, blank=True, verbose_name="创建人", null=True)
+
+    def isOverdue(self):
+        return self.end_time < timezone.now()
 
     def __str__(self):
         return self.title

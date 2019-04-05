@@ -8,13 +8,13 @@ from rest_framework_jwt.serializers import jwt_payload_handler, jwt_encode_handl
 from rest_framework.response import Response
 from rest_framework import mixins
 from rest_framework import viewsets, status
-from users.serializers import UserRegSerializer, UserSerializer,UserProfileSerializer
+from users.serializers import UserRegSerializer, UserSerializer, UserProfileSerializer
 from rest_framework.mixins import CreateModelMixin
 from rest_framework.pagination import PageNumberPagination
 from rest_framework_extensions.cache.mixins import CacheResponseMixin
 from rest_framework import filters
 from django_filters.rest_framework import DjangoFilterBackend
-from apps.users.filters import UsersFilter,UserProfileFilter
+from apps.users.filters import UsersFilter, UserProfileFilter
 from apps.users.models import UserProfile
 User = get_user_model()
 
@@ -62,19 +62,25 @@ class UserRegViewSet(CreateModelMixin, viewsets.GenericViewSet):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = self.perform_create(serializer)
-        UserProfile.objects.get_or_create(user=user)
+        obj, created = UserProfile.objects.get_or_create(user=user)
+        obj.ranking = UserProfile.objects.count()
+        obj.save()
         re_dict = serializer.data
         payload = jwt_payload_handler(user)
         re_dict["id"] = user.id
         re_dict["token"] = jwt_encode_handler(payload)
         headers = self.get_success_headers(serializer.data)
-        return Response(re_dict, status=status.HTTP_201_CREATED, headers=headers)
+        return Response(
+            re_dict,
+            status=status.HTTP_201_CREATED,
+            headers=headers)
 
     def perform_create(self, serializer):
         return serializer.save()
 
+
 class UserProfilePagination(PageNumberPagination):
-    page_size = 3
+    page_size = 5
     page_size_query_param = 'page_size'
     page_query_param = "page"
     max_page_size = 100

@@ -23,4 +23,4 @@ class ContestsFilter(rest_framework.FilterSet):
 
     class Meta:
         model = Contests
-        fields = ['title', ]
+        fields = ['contest_id', 'title', ]

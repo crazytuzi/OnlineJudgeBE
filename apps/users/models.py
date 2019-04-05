@@ -26,6 +26,7 @@ class UserProfile(models.Model):
         default=f"{settings.AVATAR_URI_PREFIX}/default.png")
     accepted_num = models.IntegerField(default=0)
     submission_num = models.IntegerField(default=0)
+    ranking = models.IntegerField(default=0)
 
     def add_submission_number(self):
         self.submission_num = models.F("submission_num") + 1
@@ -35,5 +36,15 @@ class UserProfile(models.Model):
         self.accepted_num = models.F("accepted_num") + 1
         self.save(update_fields=["accepted_num"])
 
+    def sortUserRankList(self):
+        UserProfile.objects.order_by(
+            "-accepted_num",
+            "submission_num",
+            "user__date_joined")
+        for i in range(0, UserProfile.objects.count()):
+            obj = UserProfile.objects.all()[i]
+            obj.ranking = i + 1
+            obj.save()
+
     class Meta:
-        ordering = ["-accepted_num","submission_num"]
+        ordering = ["ranking"]

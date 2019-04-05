@@ -13,7 +13,10 @@ class UsersFilter(rest_framework.FilterSet):
         model = User
         fields = ['username', 'email']
 
+
 class UserProfileFilter(rest_framework.FilterSet):
+    user__username = django_filters.CharFilter(lookup_expr="icontains")
+
     class Meta:
         model = UserProfile
-        fields = []
+        fields = ['user', 'user__username']
