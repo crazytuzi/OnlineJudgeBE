@@ -58,9 +58,9 @@ class Problems(models.Model):
 
     def update_submission(self, status, user):
         from user_operation.models import UserChallengingProblems
-        userProfile = UserProfile.objects.get(user=user)
         self.add_submission_number()
         if self.contest is None:
+            userProfile = UserProfile.objects.get(user=user)
             userProfile.add_submission_number()
             if status == JudgeStatus.ACCEPTED:
                 from user_operation.models import UserAcceptedProblems
@@ -98,6 +98,36 @@ class Problems(models.Model):
         else:
             if self.contest.isOverdue() is True:
                 return
+            if status == JudgeStatus.ACCEPTED:
+                from user_operation.models import UserAcceptedProblems
+                self.add_accepted_number()
+                obj, created = UserAcceptedProblems.objects.get_or_create(
+                    user=user, problem=self)
+                if created:
+                    try:
+                        UserChallengingProblems.objects.get(
+                            user=user, problem=self).delete()
+                    except ObjectDoesNotExist:
+                        pass
+                return
+            elif status == JudgeStatus.WRONG_ANSWER:
+                self.add_wrong_answer_number()
+            elif status == JudgeStatus.TIME_LIMIT_EXCEED:
+                self.add_time_limit_number()
+            elif status == JudgeStatus.MEMORY_LIMIT_EXCEED:
+                self.add_memory_limit_number()
+            elif status == JudgeStatus.RUNTIME_ERROR:
+                self.add_runtime_error_number()
+            elif status == JudgeStatus.OUTPUT_LIMIT_EXCEED:
+                self.add_output_limit_number()
+            elif status == JudgeStatus.COMPILE_ERROR:
+                self.add_compile_error_number()
+            elif status == JudgeStatus.PRESENTATION_ERROR:
+                self.add_presentation_error_number()
+            else:
+                self.add_other_error_number()
+            UserChallengingProblems.objects.get_or_create(
+                user=user, problem=self)
 
     def add_submission_number(self):
         self.submission_number = models.F("submission_number") + 1

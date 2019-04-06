@@ -29,3 +29,21 @@ class Contests(models.Model):
         verbose_name_plural = verbose_name
         ordering = ['-end_time']
         db_table = "contests"
+
+
+class ContestRankList(models.Model):
+    contest = models.ForeignKey(Contests, verbose_name="比赛")
+    user = models.ForeignKey(User, verbose_name="用户")
+    accepted = models.IntegerField(default=0, verbose_name="通过数量")
+    preaccepted_time = models.DateTimeField(
+        auto_now_add=True, verbose_name="上一次通过时间")
+    create_time = models.DateTimeField(auto_now_add=True, verbose_name="创建时间")
+
+    def __str__(self):
+        return self.user
+
+    class Meta:
+        verbose_name = "比赛排名"
+        verbose_name_plural = verbose_name
+        ordering = ['-accepted', 'preaccepted_time', 'create_time']
+        db_table = "contestranklist"
