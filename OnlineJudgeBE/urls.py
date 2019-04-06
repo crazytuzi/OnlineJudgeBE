@@ -20,17 +20,24 @@ from rest_framework.documentation import include_docs_urls
 from rest_framework.routers import DefaultRouter
 from rest_framework_jwt.views import obtain_jwt_token
 from problems.views import ProblemsListViewSet
-from contests.views import ContestsListViewSet
+from contests.views import ContestsListViewSet, ContestRankListViewSet
 from submissions.views import SubmissionsListViewSet, SubmissionTokenListViewSet
-from user_operation.views import UserCollectListViewSet, UserAcceptedProblemListViewSet,UserChallengingProblemListViewSet
-from users.views import UserRegViewSet,UserViewSet,UserProfileListViewSet
+from user_operation.views import UserCollectListViewSet, UserAcceptedProblemListViewSet, UserChallengingProblemListViewSet
+from users.views import UserRegViewSet, UserViewSet, UserProfileListViewSet
 
 router = DefaultRouter()
 router.register(r'problems', ProblemsListViewSet, base_name="problems")
 router.register(r'contests', ContestsListViewSet, base_name="contests")
+router.register(
+    r'contestrank',
+    ContestRankListViewSet,
+    base_name="contestrank")
 router.register(r'register', UserRegViewSet, base_name="register")
 router.register(r'users', UserViewSet, base_name="users")
-router.register(r'userprofile', UserProfileListViewSet, base_name="userprofile")
+router.register(
+    r'userprofile',
+    UserProfileListViewSet,
+    base_name="userprofile")
 router.register(
     r'submissions',
     SubmissionsListViewSet,

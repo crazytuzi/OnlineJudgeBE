@@ -104,6 +104,17 @@ class Problems(models.Model):
                 obj, created = UserAcceptedProblems.objects.get_or_create(
                     user=user, problem=self)
                 if created:
+                    from contests.models import ContestRankList
+                    obj, created = ContestRankList.objects.get_or_create(
+                        contest=self.contest, user=user)
+                    if obj.accepted + \
+                            1 <= Problems.objects.filter(contest=self.contest).count():
+                        obj.accepted = obj.accepted + 1
+                        from submissions.models import Submissions
+                        submission = Submissions.objects.filter(
+                            user=user, problem=self).last()
+                        obj.preaccepted_time = submission.submit_time
+                        obj.save()
                     try:
                         UserChallengingProblems.objects.get(
                             user=user, problem=self).delete()

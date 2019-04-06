@@ -1,6 +1,6 @@
 from django_filters import rest_framework
 import django_filters
-from .models import Contests
+from .models import Contests, ContestRankList
 from django.utils import timezone
 
 
@@ -24,3 +24,9 @@ class ContestsFilter(rest_framework.FilterSet):
     class Meta:
         model = Contests
         fields = ['contest_id', 'title', ]
+
+
+class ContestRankListFilter(rest_framework.FilterSet):
+    class Meta:
+        model = ContestRankList
+        fields = ['contest']

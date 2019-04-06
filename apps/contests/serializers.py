@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Contests
+from .models import Contests, ContestRankList
 from django.utils import timezone
 
 
@@ -25,4 +25,21 @@ class ContestsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Contests
+        fields = "__all__"
+
+
+class ContestRankListSerializer(serializers.ModelSerializer):
+    create_time = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S")
+    preaccepted_time = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S")
+    username = serializers.SerializerMethodField()
+    timeused = serializers.SerializerMethodField()
+
+    def get_username(self, obj):
+        return obj.user.username
+
+    def get_timeused(self, obj):
+        return obj.preaccepted_time - obj.contest.start_time
+
+    class Meta:
+        model = ContestRankList
         fields = "__all__"
