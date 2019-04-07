@@ -1,7 +1,6 @@
 from rest_framework import filters, status
 from rest_framework import mixins
 from rest_framework import viewsets
-from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from .models import UserCollect, UserAcceptedProblems, UserChallengingProblems
 from .serializers import UserCollectSerializer, UserAcceptedProblemSerializer, UserChallengingProblemSerializer
@@ -9,13 +8,6 @@ from django_filters.rest_framework import DjangoFilterBackend
 from .filters import UserCollectFilter, UserAcceptedProblemFilter, UserChallengingProblemFilter
 
 # Create your views here.
-
-
-class UserCollectPagination(PageNumberPagination):
-    page_size = 10
-    page_size_query_param = 'page_size'
-    page_query_param = "page"
-    max_page_size = 100
 
 
 class UserCollectListViewSet(
@@ -26,7 +18,6 @@ class UserCollectListViewSet(
         viewsets.GenericViewSet):
     queryset = UserCollect.objects.all()
     serializer_class = UserCollectSerializer
-    pagination_class = UserCollectPagination
     filter_backends = (
         DjangoFilterBackend,
         filters.SearchFilter,
