@@ -16,6 +16,7 @@ class UserCollect(models.Model):
         default=datetime.now, verbose_name="添加时间")
 
     class Meta:
+        ordering = ['-create_time']
         verbose_name = "用户收藏"
         verbose_name_plural = verbose_name
         unique_together = ("user", "problem")

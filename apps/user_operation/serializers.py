@@ -3,6 +3,9 @@ from .models import UserCollect, UserAcceptedProblems, UserChallengingProblems
 
 
 class UserCollectSerializer(serializers.ModelSerializer):
+    create_time = serializers.DateTimeField(
+        read_only=True, format="%Y-%m-%d %H:%M:%S")
+
     class Meta:
         model = UserCollect
         fields = "__all__"
