@@ -37,12 +37,12 @@ class UserProfile(models.Model):
         self.save(update_fields=["accepted_num"])
 
     def sortUserRankList(self):
-        UserProfile.objects.order_by(
+        objects = UserProfile.objects.order_by(
             "-accepted_num",
             "submission_num",
             "user__date_joined")
-        for i in range(0, UserProfile.objects.count()):
-            obj = UserProfile.objects.all()[i]
+        for i in range(0, objects.count()):
+            obj = objects.all()[i]
             obj.ranking = i + 1
             obj.save()
 
