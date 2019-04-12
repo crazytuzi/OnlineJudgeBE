@@ -58,8 +58,8 @@ class Problems(models.Model):
 
     def update_submission(self, status, user):
         from user_operation.models import UserChallengingProblems
-        self.add_submission_number()
         if self.contest is None:
+            self.add_submission_number()
             userProfile = UserProfile.objects.get(user=user)
             userProfile.add_submission_number()
             if status == JudgeStatus.ACCEPTED:
@@ -98,6 +98,7 @@ class Problems(models.Model):
         else:
             if self.contest.isOverdue() is True:
                 return
+            self.add_submission_number()
             if status == JudgeStatus.ACCEPTED:
                 from user_operation.models import UserAcceptedProblems
                 self.add_accepted_number()

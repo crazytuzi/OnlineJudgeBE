@@ -12,6 +12,8 @@ class UserCollectSerializer(serializers.ModelSerializer):
 
 
 class UserAcceptedProblemSerializer(serializers.ModelSerializer):
+    create_time = serializers.DateTimeField(
+        read_only=True, format="%Y-%m-%d %H:%M:%S")
     class Meta:
         model = UserAcceptedProblems
         fields = "__all__"

@@ -1,5 +1,4 @@
 from django.db import models
-from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 
 # Create your models here.
@@ -22,8 +21,9 @@ class User(AbstractUser):
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    avatar = models.TextField(
-        default=f"{settings.AVATAR_URI_PREFIX}/default.png")
+    avatar = models.ImageField(
+        upload_to='avatars/',
+        default='avatars/default.jpg')
     accepted_num = models.IntegerField(default=0)
     submission_num = models.IntegerField(default=0)
     ranking = models.IntegerField(default=0)

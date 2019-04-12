@@ -14,11 +14,12 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import url, include
-# from django.contrib import admin
 import xadmin
 from rest_framework.documentation import include_docs_urls
 from rest_framework.routers import DefaultRouter
 from rest_framework_jwt.views import obtain_jwt_token
+from django.conf import settings
+from django.conf.urls.static import static
 from problems.views import ProblemsListViewSet
 from contests.views import ContestsListViewSet, ContestRankListViewSet
 from submissions.views import SubmissionsListViewSet, SubmissionTokenListViewSet
@@ -68,4 +69,4 @@ urlpatterns = [
     url(r'^api/', include(router.urls)),
     url(r'docs/', include_docs_urls(title="OnlineJudgeBE")),
 
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

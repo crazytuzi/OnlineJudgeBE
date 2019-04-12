@@ -1,3 +1,4 @@
+import pymysql
 """
 Django settings for OnlineJudgeBE project.
 
@@ -88,7 +89,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'OnlineJudgeBE.wsgi.application'
 
-import pymysql
 pymysql.install_as_MySQLdb()
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
@@ -146,8 +146,8 @@ USE_TZ = False
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
-
-AVATAR_URI_PREFIX = ""
+MEDIA_URL = '/media/'
+MEDIA_ROOT = '/file/'
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.BasicAuthentication',
