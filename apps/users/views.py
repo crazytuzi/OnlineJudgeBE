@@ -88,6 +88,7 @@ class UserProfilePagination(PageNumberPagination):
 
 class UserProfileListViewSet(
         mixins.ListModelMixin,
+        mixins.UpdateModelMixin,
         viewsets.GenericViewSet):
     queryset = UserProfile.objects.all()
     serializer_class = UserProfileSerializer

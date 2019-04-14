@@ -17,7 +17,12 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class UserProfileSerializer(serializers.ModelSerializer):
+    user = serializers.SlugRelatedField(
+        slug_field='id', read_only=True)
     username = serializers.SerializerMethodField()
+    accepted_num = serializers.IntegerField(read_only=True)
+    submission_num = serializers.IntegerField(read_only=True)
+    ranking = serializers.IntegerField(read_only=True)
 
     def get_username(self, obj):
         return obj.user.username
