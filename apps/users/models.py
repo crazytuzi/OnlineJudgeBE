@@ -34,7 +34,7 @@ class UserProfile(models.Model):
         null=True,
         blank=True,
         verbose_name="真实姓名")
-    student_no = models.IntegerField(
+    student_no = models.BigIntegerField(
         unique=True,
         null=True,
         blank=True,
@@ -44,7 +44,7 @@ class UserProfile(models.Model):
         null=True,
         blank=True,
         verbose_name="签名")
-    QQ = models.IntegerField(null=True, blank=True, verbose_name="QQ")
+    QQ = models.BigIntegerField(null=True, blank=True, verbose_name="QQ")
     blog = models.CharField(
         max_length=255,
         null=True,
