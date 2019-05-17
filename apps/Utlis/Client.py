@@ -1,10 +1,11 @@
 import requests
 from . import Token
+from . import DRSalgorithm
 import json
 from rest_framework.renderers import JSONRenderer
 from submissions.models import Submissions, SubmissionToken
 from problems.models import Problems
-url = 'http://127.0.0.1:8888/app/'
+DRS = DRSalgorithm.DRSalgorithm()
 jr = JSONRenderer()
 
 
@@ -17,7 +18,8 @@ def http_post(data):
         submission=Submissions.objects.get(pk=jdata["id"]),
         token=Token.generate_token(Token.key)
     )
-    # jdata need reset
     jdata["id"] = submissionToken.id
     jdata["token"] = submissionToken.token
-    requests.post(url, json=jdata)
+    url = DRS.getUrl()
+    req = requests.post(url, json=jdata)
+    DRS.update(url, req.elapsed.total_seconds())
