@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'apps.user_operation.apps.UserOperationConfig',
     'apps.contests.apps.ContestsConfig',
     'apps.submissions.apps.SubmissionsConfig',
+    'apps.announcements.apps.AnnouncementsConfig',
     'xadmin',
     'crispy_forms',
     'django_filters',

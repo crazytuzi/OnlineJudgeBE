@@ -23,8 +23,10 @@ from django.conf.urls.static import static
 from problems.views import ProblemsListViewSet
 from contests.views import ContestsListViewSet, ContestRankListViewSet
 from submissions.views import SubmissionsListViewSet, SubmissionTokenListViewSet
-from user_operation.views import UserCollectListViewSet, UserAcceptedProblemListViewSet, UserChallengingProblemListViewSet
+from user_operation.views import UserCollectListViewSet, UserAcceptedProblemListViewSet, \
+    UserChallengingProblemListViewSet
 from users.views import UserRegViewSet, UserViewSet, UserProfileListViewSet
+from announcements.views import AnnouncementsListViewSet
 
 router = DefaultRouter()
 router.register(r'problems', ProblemsListViewSet, base_name="problems")
@@ -59,6 +61,10 @@ router.register(
     r'userchallengingproblems',
     UserChallengingProblemListViewSet,
     base_name="userchallengingproblems")
+router.register(
+    r'announcements',
+    AnnouncementsListViewSet,
+    base_name="announcements")
 
 urlpatterns = [
     # url(r'^admin/', admin.site.urls),
