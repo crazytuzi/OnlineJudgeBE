@@ -21,7 +21,7 @@ class AnnouncementsListViewSet(
         mixins.RetrieveModelMixin,
         mixins.ListModelMixin,
         viewsets.GenericViewSet):
-    queryset = Announcements.objects.all()
+    queryset = Announcements.objects.all().order_by('-create_time')
     serializer_class = AnnouncementsSerializer
     pagination_class = AnnouncementsPagination
     filter_backends = (
@@ -30,4 +30,3 @@ class AnnouncementsListViewSet(
         filters.OrderingFilter
     )
     filter_class = AnnouncementsFilter
-    ordering_fields = ('create_time',)
