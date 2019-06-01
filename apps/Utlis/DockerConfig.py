@@ -1,4 +1,4 @@
-DockersCfg1 = [
+DockersCfg = [
     {
         'ip': '127.0.0.1',
         'port': '8880'
@@ -14,13 +14,6 @@ DockersCfg1 = [
     {
         'ip': '127.0.0.1',
         'port': '8883'
-    }
-]
-
-DockersCfg = [
-    {
-        'ip': '127.0.0.1',
-        'port': '8888'
     }
 ]
 

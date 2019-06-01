@@ -11,6 +11,10 @@ class Announcements(models.Model):
     create_time = models.DateTimeField(auto_now_add=True, verbose_name="创建时间")
     create_by = models.ForeignKey(
         User, blank=True, verbose_name="创建人", null=True)
+
+    def __str__(self):
+        return self.title
+
     class Meta:
         verbose_name = "公告"
         verbose_name_plural = verbose_name
